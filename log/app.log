@@ -1,0 +1,2 @@
+2018-04-19 10:38:16,236 -     INFO -                 root -             <module> - This is an info message
+2018-04-19 10:38:16,236 -     INFO -                  App -             __init__ - App instance created with message, Hello World!

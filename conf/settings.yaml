@@ -1,0 +1,9 @@
+logger:
+  file: log/app.log
+  format: "%(asctime)22s - %(levelname)8s - %(name)20s - %(message)s"
+  format_ext: "%(asctime)22s - %(levelname)8s - %(name)20s - %(funcName)20s - %(message)s"
+  level: DEBUG
+  max_file_size: 5000
+  max_retention: 5
+app:
+  message: "Hello World!"
