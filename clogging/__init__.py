@@ -23,16 +23,30 @@ import yaml
 
 def start_from_yaml(conf): 
     """Start logging based on entries in a YAML configuration file.
-    All logger entries should be nested under "logger" at the root
-    of the YAML file. If this is unclear, look at the example files
-    provided. The available settings and defaults are listed under
-    _setup_root_logger.
+    All clogging entries should be nested under "clogging" at the
+    root of the YAML file. For example:
+      
+      clogging:
+        file: log/test.log
+        level: WARNING
+        max_file_size: 5000
+        max_retention: 5
+      app:
+        ...
+      ...
+    
+    All settings are optional. If you erase one or more of the
+    settings in the YAML file, default settings will be used. See
+    documentation for available options and their default values.
 
-    NOTE: Variables with trailing underscores are Python reserved
-    words and are represented in YAML without trailing underscores. 
+    NOTE: This function does require that you have at least the
+    "clogging" section in your YAML file.
     """
-    with open(conf, 'r') as y_file:
-        y = yaml.load(y_file)['logger']
+    try:
+        with open(conf, 'r') as y_file:
+            y = yaml.load(y_file)['clogging']
+    except KeyError:
+        raise KeyError("clogging entry was not found in %s" %(conf))
 
     logger = _setup_root_logger(y)
     return logger
@@ -45,6 +59,9 @@ def start_from_args(**kwargs):
     return logger
 
 def _setup_root_logger(y):
+    """NOTE: Variables with trailing underscores are Python reserved
+    words and are represented in YAML without trailing underscores. 
+    """
     file_ = None
     format_ = '%(asctime)22s - %(levelname)8s - %(name)20s - %(message)s'
     format_ext = '%(asctime)22s - %(levelname)8s - %(name)20s - ' \

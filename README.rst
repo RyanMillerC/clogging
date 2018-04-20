@@ -71,14 +71,16 @@ Your YAML file, at it's root level, should be structured like,
     level: WARNING
     max_file_size: 5000
     max_retention: 5
+    ...
   app:
     ...
   ...
 
 All settings are optional. If you erase one or more of the settings in
-the YAML file, default settings will be used. start_from_yaml does
-require that you have at least a "clogging" section in your YAML file.
-To use clogging without a YAML file, use start_from_args.
+the YAML file, default settings will be used. For a list of available
+option, see the Options section below. start_from_yaml does require that
+you have at least a "clogging" section in your YAML file. To use clogging
+without a YAML file, use start_from_args.
 
 start_from_args
 ~~~~~~~~~~~~~~~
