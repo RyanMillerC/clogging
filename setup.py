@@ -1,8 +1,9 @@
-from distutils.core import setup
+from setuptools import setup
 setup(
     name = 'clogging',
     packages = ['clogging'],
     version = '0.1',
+    install_requires = ['PyYAML>=3.12'],
     description = 'Configurable Logging Boilerplate for the Autologging Module',
     long_description = open('README.rst').read(),
     author = 'Ryan Miller',

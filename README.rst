@@ -22,6 +22,9 @@ It features:
 * Quick incorperation (one line) into projects for basic usage
 * Writing log output to file with log rotation
 
+A demo "Hello World" application using clogging/autologging is available here,
+    https://github.com/RyanMillerC/DemoCloggingApp
+
 *Technically clogging could be used to configure the standard Python
 logging module, since this doesn't directly interact with autologging,
 but it was specifically created to fill in gaps and save me time
