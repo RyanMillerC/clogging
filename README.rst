@@ -7,10 +7,10 @@ clogging - Configurable Logging Boilerplate for the Autologging Module.
 About
 ************
 
-Autologging is awesome and is now my go-to for automatic logging in
-Python; however, it's not a completely boilerplate free solution, IMO.
-This module, clogging, addresses tasks that I would otherwise need to
-address per application.
+Autologging (https://github.com/mzipay/Autologging) is awesome and is now my
+go-to for automatic logging in Python; however, it's not completely boilerplate
+free. This module, clogging, addresses tasks that I would otherwise need to
+address per application I incorperate autologging into.
 
 It features:
 
