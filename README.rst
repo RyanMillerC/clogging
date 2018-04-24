@@ -23,7 +23,7 @@ It features:
 * Writing log output to file with log rotation
 
 A demo "Hello World" application using clogging/autologging is available here,
-    https://github.com/RyanMillerC/DemoCloggingApp
+https://github.com/RyanMillerC/DemoCloggingApp
 
 *Technically clogging could be used to configure the standard Python
 logging module, since this doesn't directly interact with autologging,
@@ -119,8 +119,10 @@ option names can be set in either YAML format or as arguments to
 start_from_args.
 
 :file:
-  Path to log file. If max_retention is set > 0, then rolled logs will
-  be saved as log.1, log.2, ...etc., up to the value of max_retention.
+  Path to log file. By default, file logging is disabled. If 'file' is set to a
+  file path, it will enabled rotated file logging. By default the log file will
+  rotate at 5 MB, up to 5 times. These values can be configured using
+  'max_file_size' and 'max_retention'.
 
   Default: None
 
@@ -128,14 +130,14 @@ start_from_args.
   Logging format for all non-verbose levels. By default non-verbose is
   considered to be INFO and higher.
 
-  Default: '%(asctime)22s:%(levelname)8s:%(name)20s:%(message)s'
+  Default: '%(asctime)22s - %(levelname)8s - %(name)20s - %(message)s'
 
 :format_ext:
   Logging format for all verbose levels. By default this is considered
-  DEBUG and TRACE levels. Additional levels can be added to
-  verbose_levels
+  to be DEBUG and TRACE levels. Additional levels can be added to use this
+  format in 'verbose_levels'.
   
-  Default: '%(asctime)22s:%(levelname)8s:%(name)20s:%(funcName)20s:%(message)s' 
+  Default: '%(asctime)22s - %(levelname)8s - %(name)20s - %(funcName)20s - %(message)s'
 
 :level:
   Logging level.
@@ -143,17 +145,18 @@ start_from_args.
   Default: 'INFO'
 
 :max_file_size:
-  Maximum log file size in bytes before rollover. Setting to 0 will
-  cause the log file to grow forever with no rollover. This option has
-  no impact if file is set to None.
+  Maximum log file size before rollover. This value can either be an integer
+  bytes size or a proper string like: "5 MB", "50 kB", etc. Setting to 0
+  will cause the log file to grow infinitely with no rollover. This option has
+  no impact if 'file' is set to None.
 
-  Default: 5000
+  Default: '5 MB'
 
 :max_retention:
-  Maximum number of rolled over logs to keep. Logs will be saved as
-  log.1, log.2, ...etc., until max_retention is reached. At that point
-  the oldest of the rollover logs will be cleared. This option has no
-  impact if file is set to None.
+  Maximum number of rolled over logs to keep. Logs will be saved as log.1,
+  log.2, ...etc., until max_retention is reached. At that point the oldest of
+  the rollover logs will be cleared. This option has no impact if 'file' is set
+  to None.
 
   Default: 5
 

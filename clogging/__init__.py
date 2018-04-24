@@ -17,6 +17,7 @@ autologging, but it was specifically created to fill in gaps
 and save me time building applications that use autologging.
 """
 
+import bitmath
 import logging
 import logging.handlers
 import yaml
@@ -82,7 +83,12 @@ def _setup_root_logger(y):
     if 'file' in y:
         file_ = y['file']
         if 'max_file_size' in y:
-            max_file_size = y['max_file_size']
+            try: # Convert value to bytes
+                max_file_size = int(
+                    bitmath.parse_string(y['max_file_size']).bytes
+                )
+            except ValueError: # Value is supplied is in bytes
+                max_file_size = int(y['max_file_size'])
         if 'max_retention' in y:
             max_retention = y['max_retention']
 
@@ -97,9 +103,9 @@ def _setup_root_logger(y):
 
     if file_:
         fh = logging.handlers.RotatingFileHandler(
-                file_,
-                maxBytes=max_file_size,
-                backupCount=max_retention
+            file_,
+            maxBytes=max_file_size,
+            backupCount=max_retention
         )
         fh.setLevel(level)
         fh.setFormatter(formatter)
