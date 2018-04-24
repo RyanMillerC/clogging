@@ -18,7 +18,7 @@ It features:
 * Complete setup of a complex root Logger instance with a single call
 * Configurable logging through YAML configuration or through keyword args
 * Detailed output columns for lower logging levels
-* Surpressed output columns for higher logging levels
+* Suppressed output columns for higher logging levels
 * Optional rotating file handler
 
 A demo "Hello World" application using clogging/autologging is available here,
@@ -77,8 +77,8 @@ Your YAML file, at it's root level, should be structured like,
       max_file_size: 5 MB
       max_retention: 5
       verbose_levels: ['TRACE', 'DEBUG']
-    app:  // Application or other configurations not nessesary, shown
-      ... // as example only
+    app:  // Application or other configurations not necessary, shown
+      ... // here for example only
     ...
 
 All YAML settings are optional. If any setting is not supplied in the
@@ -110,11 +110,11 @@ same options names and values as start_from_yaml.
 
 This function returns a root Logger instance.
 
-All arguments are optional. If any arguement is not supplied, it's default
+All arguments are optional. If any argument is not supplied, it's default
 value be used. It is even possible to run with 0 arguments, in which case
 the default values would be used for everything.
 
-For a list of available arguements and default values, see the Options
+For a list of available arguments and default values, see the Options
 section below.
 
 This example is the easiest way to add clogging into a project and start
