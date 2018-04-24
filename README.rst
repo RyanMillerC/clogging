@@ -71,8 +71,8 @@ Your YAML file, at it's root level, should be structured like,
     clogging:
       file: log/app.log
       format: '%(asctime)22s - %(levelname)8s - %(name)20s - %(message)s'
-      format_ext: '%(asctime)22s - %(levelname)8s - %(name)20s - ' \
-              '%(funcName)20s - %(message)s'
+      format_ext: '%(asctime)22s - %(levelname)8s - %(name)20s - \
+                   %(funcName)20s - %(message)s'
       level: INFO
       max_file_size: 5 MB
       max_retention: 5
@@ -81,13 +81,11 @@ Your YAML file, at it's root level, should be structured like,
       ... // as example only
     ...
 
-All settings are optional. If you fail to supply one or more of the
-settings in the YAML file, default settings will be used.
+All YAML settings are optional. If any setting is not supplied in the
+configuration, it's default value will be used. For a list of available
+options and defaults, see the Options section below.
 
-For a list of available options and defaults, see the Options section below.
-
-start_from_yaml does require that you have at least a "clogging" section
-in your YAML file. To use clogging without a YAML file, use start_from_args.
+To use clogging without a YAML file, see below.
 
 start_from_args
 ~~~~~~~~~~~~~~~
@@ -108,17 +106,15 @@ Usage:
 
 
 Start logging based on keyword arguments. This function will accept the
-same options as start_from_yaml, but passed in to the function as
-keyword arguments.
+same options names and values as start_from_yaml.
 
 This function returns a root Logger instance.
 
-All settings are optional. If you fail to supply one or more of the
-options in the YAML file, default settings for those options will be
-used. It is even possible to run with no options set. In that case the
-default settings would be used for every option.
+All arguments are optional. If any arguement is not supplied, it's default
+value be used. It is even possible to run with 0 arguments, in which case
+the default values would be used for everything.
 
-For a list of available options and defaults, see the Options
+For a list of available arguements and default values, see the Options
 section below.
 
 This example is the easiest way to add clogging into a project and start
@@ -141,8 +137,8 @@ Options
 
 The following are available options and their descriptions. If any of
 these options are not supplied, the default value will be used. These
-option names can be set in either YAML format or as arguments to
-start_from_args.
+option names can be set in either YAML format or as keyword arguments
+for start_from_args.
 
 :file:
   Path to log file. By default, file logging is disabled. If 'file' is set to a
@@ -177,16 +173,16 @@ start_from_args.
 
 :max_file_size:
   Maximum log file size before rollover. This value can either be an integer
-  bytes size or a proper string like: "5 MB", "50 kB", etc. Setting to 0
+  byte size or a proper string like: "5 MB", "50 kB", etc. Setting to 0
   will cause the log file to grow infinitely with no rollover. This option has
   no impact if 'file' is set to None.
 
   Default: '5 MB'
 
 :max_retention:
-  Maximum number of rolled over logs to keep. Logs will be saved as log.1,
-  log.2, ...etc., until max_retention is reached. At that point the oldest of
-  the rollover logs will be cleared. This option has no impact if 'file' is set
+  Maximum number of rollover logs to keep. Logs will be saved as log.1, log.2,
+  ...etc., until max_retention is reached. At that point the oldest of
+  the rollover logs will be purged. This option has no impact if 'file' is set
   to None, or if 'max_file_size' is set to 0.
 
   Default: 5
