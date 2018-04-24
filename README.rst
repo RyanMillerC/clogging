@@ -94,12 +94,12 @@ Usage:
 ::
 
     log = clogging.start_from_args(
-            file="log/app.log",
-            format="%(asctime)22s - %(levelname)8s - %(name)20s - %(message)s",
-            format_ext: "%(asctime)22s - %(levelname)8s - %(name)20s - " \
-                        "%(funcName)20s - %(message)s",
-            level=INFO,
-            max_file_size="5 MB",
+            file='log/app.log',
+            format='%(asctime)22s - %(levelname)8s - %(name)20s - %(message)s',
+            format_ext='%(asctime)22s - %(levelname)8s - %(name)20s - ' \
+                    '%(funcName)20s - %(message)s',
+            level='INFO',
+            max_file_size='5 MB',
             max_retention=5,
             verbose_levels=['TRACE', 'DEBUG']
     )
