@@ -7,20 +7,19 @@ clogging - Configurable Logging Boilerplate for the Autologging Module.
 About
 ************
 
-Autologging (https://github.com/mzipay/Autologging) is awesome and is now my
-go-to for automatic logging in Python; however, it's not completely boilerplate
-free. This module, clogging, addresses tasks that I would otherwise need to
-address per application I incorperate autologging into.
+Autologging (https://github.com/mzipay/Autologging) is an awesome module for
+automatic logging in Python; however, it's not completely boilerplate free.
+
+This module, clogging, addresses tasks that I would otherwise need to address
+per application I build.
 
 It features:
 
-* Completely sets up a complex root Logger instance with one call
-* Logging is configurable through a YAML configuration file or function
-  with keyword arguments 
-* Surpressed columns for higher level logging with more detailed output
-  for lower logging levels
-* Quick incorperation (one line) into projects for basic usage
-* Writing log output to file with log rotation
+* Complete setup of a complex root Logger instance with a single call
+* Configurable logging through YAML configuration or through keyword args
+* Detailed output columns for lower logging levels
+* Surpressed output columns for higher logging levels
+* Optional rotating file handler
 
 A demo "Hello World" application using clogging/autologging is available here,
     https://github.com/RyanMillerC/DemoCloggingApp
@@ -60,27 +59,35 @@ Start logging based on entries in a YAML configuration file. This is
 designed to work with an existing application settings.yaml file, but
 does not have to have anything additional for your application inside
 it. All clogging entries should be nested under 'clogging' at the root
-of the YAML file. If this is unclear, look at the example provided under
-conf/settings.yaml. This function returns a root Logger instance.
+of the YAML file. If this is unclear, look at the example in the demo
+application mentioned previous in this document.
+
+This function returns a root Logger instance.
 
 Your YAML file, at it's root level, should be structured like,
 ::
 
-  clogging:
-    file: log/test.log
-    level: WARNING
-    max_file_size: 5000
-    max_retention: 5
-    ...
-  app:
-    ...
-  ...
 
-All settings are optional. If you erase one or more of the settings in
-the YAML file, default settings will be used. For a list of available
-option, see the Options section below. start_from_yaml does require that
-you have at least a "clogging" section in your YAML file. To use clogging
-without a YAML file, use start_from_args.
+    clogging:
+      file: log/app.log
+      format: '%(asctime)22s - %(levelname)8s - %(name)20s - %(message)s'
+      format_ext: '%(asctime)22s - %(levelname)8s - %(name)20s - ' \
+              '%(funcName)20s - %(message)s'
+      level: INFO
+      max_file_size: 5 MB
+      max_retention: 5
+      verbose_levels: ['TRACE', 'DEBUG']
+    app:  // Application or other configurations not nessesary, shown
+      ... // as example only
+    ...
+
+All settings are optional. If you fail to supply one or more of the
+settings in the YAML file, default settings will be used.
+
+For a list of available options and defaults, see the Options section below.
+
+start_from_yaml does require that you have at least a "clogging" section
+in your YAML file. To use clogging without a YAML file, use start_from_args.
 
 start_from_args
 ~~~~~~~~~~~~~~~
@@ -88,12 +95,31 @@ start_from_args
 Usage:
 ::
 
-  log = clogging.start_from_args()
+    log = clogging.start_from_args(
+            file="log/app.log",
+            format="%(asctime)22s - %(levelname)8s - %(name)20s - %(message)s",
+            format_ext: "%(asctime)22s - %(levelname)8s - %(name)20s - " \
+                        "%(funcName)20s - %(message)s",
+            level=INFO,
+            max_file_size="5 MB",
+            max_retention=5,
+            verbose_levels=['TRACE', 'DEBUG']
+    )
 
 
 Start logging based on keyword arguments. This function will accept the
 same options as start_from_yaml, but passed in to the function as
-keyword arguments. This function returns a root Logger instance.
+keyword arguments.
+
+This function returns a root Logger instance.
+
+All settings are optional. If you fail to supply one or more of the
+options in the YAML file, default settings for those options will be
+used. It is even possible to run with no options set. In that case the
+default settings would be used for every option.
+
+For a list of available options and defaults, see the Options
+section below.
 
 This example is the easiest way to add clogging into a project and start
 INFO level logging to the console,
@@ -101,12 +127,12 @@ INFO level logging to the console,
 
   log = clogging.start_from_args(level='INFO')
 
-Or, example to start DEBUG level logging with file output,
+Or, another example to start DEBUG level logging with a rotating file handler,
 ::
 
   log = clogging.start_from_args(
           file='logs/app.log',
-          level='INFO'
+          level='DEBUG'
   )
 
 
@@ -120,9 +146,14 @@ start_from_args.
 
 :file:
   Path to log file. By default, file logging is disabled. If 'file' is set to a
-  file path, it will enabled rotated file logging. By default the log file will
-  rotate at 5 MB, up to 5 times. These values can be configured using
-  'max_file_size' and 'max_retention'.
+  file path, for example, 'log/app.log', it will enable rotating file logging. 
+
+  Note: In the example 'log/app.log', the log file itself, 'app.log', does not
+  need to exist; however, the base directory 'log' MUST exist. 
+  
+  By default the log file will rotate when it reaches 5 MB, with up to 5
+  rotations being kept before overwriting the oldest. These values can be
+  configured using 'max_file_size' and 'max_retention'.
 
   Default: None
 
@@ -156,7 +187,7 @@ start_from_args.
   Maximum number of rolled over logs to keep. Logs will be saved as log.1,
   log.2, ...etc., until max_retention is reached. At that point the oldest of
   the rollover logs will be cleared. This option has no impact if 'file' is set
-  to None.
+  to None, or if 'max_file_size' is set to 0.
 
   Default: 5
 

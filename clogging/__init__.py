@@ -28,20 +28,22 @@ def start_from_yaml(conf):
     root of the YAML file. For example:
       
       clogging:
-        file: log/test.log
-        level: WARNING
-        max_file_size: 5000
+        file: log/app.log
+        format: "%(asctime)22s - %(levelname)8s - %(name)20s - %(message)s"
+        format_ext: "%(asctime)22s - %(levelname)8s - %(name)20s - " \
+                "%(funcName)20s - %(message)s"
+        level: INFO
+        max_file_size: 5 MB
         max_retention: 5
-      app:
-        ...
-      ...
+        verbose_levels: ['TRACE', 'DEBUG']
     
     All settings are optional. If you erase one or more of the
-    settings in the YAML file, default settings will be used. See
-    documentation for available options and their default values.
-
+    settings in the YAML file, default settings will be used. 
+    
     NOTE: This function does require that you have at least the
     "clogging" section in your YAML file.
+    
+    See documentation for additional info.
     """
     try:
         with open(conf, 'r') as y_file:
@@ -54,21 +56,38 @@ def start_from_yaml(conf):
 
 def start_from_args(**kwargs):
     """Start logging based on keyword arguments. This function will
-    accept the same options as start_from_yaml.
+    accept the same options as start_from_yaml. For example:
+    
+    log = clogging.start_from_args(
+            file="log/app.log",
+            format="%(asctime)22s - %(levelname)8s - %(name)20s - %(message)s",
+            format_ext: "%(asctime)22s - %(levelname)8s - %(name)20s - " \
+                        "%(funcName)20s - %(message)s",
+            level=INFO,
+            max_file_size="5 MB",
+            max_retention=5,
+            verbose_levels=['TRACE', 'DEBUG']
+    )
+
+    All settings are optional. If you remove one or more of the
+    keywork parameters, their default settings will be used. See
+    documentation for additional info.
     """
     logger = _setup_root_logger(kwargs)
     return logger
 
 def _setup_root_logger(y):
-    """NOTE: Variables with trailing underscores are Python reserved
-    words and are represented in YAML without trailing underscores. 
+    """Configure and return the root Logger instance.
+    
+    Variables with trailing underscores are Python reserved words
+    and are represented in YAML WITHOUT trailing underscores. 
     """
     file_ = None
     format_ = '%(asctime)22s - %(levelname)8s - %(name)20s - %(message)s'
     format_ext = '%(asctime)22s - %(levelname)8s - %(name)20s - ' \
                  '%(funcName)20s - %(message)s' 
     level = 'INFO'
-    max_file_size = 5000
+    max_file_size = '5 MB'
     max_retention = 5
     verbose_levels = ['TRACE', 'DEBUG']
 
