@@ -1,0 +1,13 @@
+# Ignore Virtual Environments
+.venv
+.venv3
+
+# Ignore class/cache files
+conlog/*.pyc
+conlog/__pycache__
+
+# Ignore test files
+.pytest_cache
+test/__pycache__
+test/utils/__pycache__
+test/tmp/*

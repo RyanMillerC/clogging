@@ -1,199 +1,229 @@
 #############
-clogging
+conlog
 #############
 
-clogging - Configurable Logging Boilerplate for the Autologging Module. 
+.. image:: https://travis-ci.org/RyanMillerC/clogging.svg?branch=master
+    :target: https://travis-ci.org/RyanMillerC/clogging
+
+Anti-Boilerplate Console Logging Module for Python
+
 
 About
-************
+=====
 
-Autologging (https://github.com/mzipay/Autologging) is an awesome module for
-automatic logging in Python; however, it's not completely boilerplate free.
+*conlog* is a configurable console logging mechanism featuring:
 
-This module, clogging, addresses tasks that I would otherwise need to address
-per application I build.
+- Boilerplate-free setup
+- Only one line per Logger
+- Export to optional rotating log file
+- Show additional log columns when debugging, suppress when not
+- YAML or argument based configuration
 
-It features:
-
-* Complete setup of a complex root Logger instance with a single call
-* Configurable logging through YAML configuration or through keyword args
-* Detailed output columns for lower logging levels
-* Suppressed output columns for higher logging levels
-* Optional rotating file handler
-
-A demo "Hello World" application using clogging/autologging is available here,
-    https://github.com/RyanMillerC/DemoCloggingApp
-
-*Technically clogging could be used to configure the standard Python
-logging module, since this doesn't directly interact with autologging,
-but it was specifically created to fill in gaps and save me time
-building applications that use autologging.*
 
 Installation
-************
- 
+============
+
+Install via pip: **(Recommended)**
 ::
 
-  pip install clogging
+  pip install conlog
+
+Or with setup_tools:
+::
+
+  python setup.py install
 
 
 Documentation
-*************
+=============
 
-Import this module with:
+Quick start
+-----------
+
 ::
 
-  import clogging
+  import conlog
+  log = conlog.start(level='INFO')
+  log.info('Hello World!')
 
-These are the two functions which will start logging.
 
-start_from_yaml
-~~~~~~~~~~~~~~~
+Functions
+---------
 
-Usage:
+
+start(...)
+""""""""""
+
 ::
 
-  log = clogging.start_from_yaml('path/to/file.yaml')
-
-Start logging based on entries in a YAML configuration file. This is
-designed to work with an existing application settings.yaml file, but
-does not have to have anything additional for your application inside
-it. All clogging entries should be nested under 'clogging' at the root
-of the YAML file. If this is unclear, look at the example in the demo
-application mentioned previous in this document.
-
-This function returns a root Logger instance.
-
-Your YAML file, at it's root level, should be structured like,
-::
-
-
-    clogging:
-      file: log/app.log
-      format: '%(asctime)22s - %(levelname)8s - %(name)20s - %(message)s'
-      format_ext: '%(asctime)22s - %(levelname)8s - %(name)20s - \
-                   %(funcName)20s - %(message)s'
-      level: INFO
-      max_file_size: 5 MB
-      max_retention: 5
-      verbose_levels: ['TRACE', 'DEBUG']
-    app:  // Application or other configurations not necessary, shown
-      ... // here for example only
-    ...
-
-All YAML settings are optional. If any setting is not supplied in the
-configuration, it's default value will be used. For a list of available
-options and defaults, see the Options section below.
-
-To use clogging without a YAML file, see below.
-
-start_from_args
-~~~~~~~~~~~~~~~
-
-Usage:
-::
-
-    log = clogging.start_from_args(
-            file='log/app.log',
-            format='%(asctime)22s - %(levelname)8s - %(name)20s - %(message)s',
-            format_ext='%(asctime)22s - %(levelname)8s - %(name)20s - ' \
-                    '%(funcName)20s - %(message)s',
-            level='INFO',
-            max_file_size='5 MB',
-            max_retention=5,
-            verbose_levels=['TRACE', 'DEBUG']
+    start(
+        yaml_file=None,
+        log_file=None,
+        log_format='%(asctime)22s - %(levelname)8s - %(name)20s - %(message)s',
+        debug_format='%(asctime)22s - %(levelname)8s - %(name)20s - %(funcName)20s - %(message)s',
+        level='INFO',
+        max_file_size='5000000',
+        max_retention=5
     )
 
+Configure and return the root Logger instance. All parameters
+are optional. If any parameter is not supplied, its default
+value be used. It is even possible to run with no parameters,
+in which case the default values would be used across all
+options.
 
-Start logging based on keyword arguments. This function will accept the
-same options names and values as start_from_yaml.
+Parameters
+''''''''''
 
-This function returns a root Logger instance.
+:``yaml_file``:
+  Pull configurations from YAML file. All parameters from
+  ``start()`` are available as YAML options. Option entries
+  should be nested under ``conlog`` at the root of the YAML
+  file. The file should be structured:
+  ::
 
-All arguments are optional. If any argument is not supplied, it's default
-value be used. It is even possible to run with 0 arguments, in which case
-the default values would be used for everything.
+      conlog:
+        log_file: log/app.log
+        log_format: '%(asctime)22s - %(levelname)8s - %(name)20s - %(message)s'
+        debug_format: '%(asctime)22s - %(levelname)8s - %(name)20s - %(funcName)20s - %(message)s'
+        level: INFO
+        max_file_size: 5 MB
+        max_retention: 5
 
-For a list of available arguments and default values, see the Options
-section below.
+  Like ``start()`` parameters, all YAML settings are optional.
+  If any setting is not supplied in the configuration, its
+  default value will be used.
 
-This example is the easiest way to add clogging into a project and start
-INFO level logging to the console,
+  If ``yaml_file`` is supplied, its values are processed first,
+  and will be overridden by any additional parameters called in
+  ``start()``
+  
+  Default: ``None``
+
+
+:``log_file``:
+  Path to log file. By default, file logging is disabled. If
+  ``log_file`` is set to a file path, for example, ``log/app.log``,
+  it will enable rotating file logging.
+
+  NOTE: In the example ``log/app.log``, the log file itself,
+  ``app.log``, does not need to exist; however, the base directory
+  ``log`` MUST exist.
+
+  By default the log file will rotate when it reaches ``5 MB``,
+  with up to ``5`` rotations being kept before overwriting the oldest.
+  These values can be adjusted using the ``max_file_size`` and
+  ``max_retention`` options.
+
+  Default: ``None``
+
+
+:``log_format``:
+  Logging format for all levels EXCEPT ``DEBUG``.
+
+  Default: ``%(asctime)22s - %(levelname)8s - %(name)20s - %(message)s``
+
+
+:``debug_format``:
+  Logging format for ``DEBUG`` level. By default, this displays the
+  same formatting as ``format``, but with an additional column for
+  the function name which is calling the Logger.
+
+  Default: ``%(asctime)22s - %(levelname)8s - %(name)20s - %(funcName)20s - %(message)s``
+
+
+:``level``:
+  Logging level. Only messages sent to this level or higher will
+  appear in log.
+
+  Default: ``INFO``
+
+
+:``max_file_size``:
+  Maximum log file size before rollover. This value can either
+  be an integer byte size or a proper string like: ``5 MB``,
+  ``50 kB``, etc. Setting to ``0`` will cause the log file to
+  grow infinitely with no rollover. This option has no impact if
+  ``log_file`` is set to ``None``.
+
+  Default: ``5000000`` (5 MB)
+
+
+:``max_retention``:
+  Maximum number of rollover logs to keep. Rotated logs will be
+  saved in the format ``log_name.1``, ``log_name.2``, etc.,
+  until ``max_retention`` is reached. At that point the oldest
+  of the rollover logs will be purged. This option has no impact
+  if ``log_file`` is set to ``None``, or if ``max_file_size`` is
+  set to ``0``.
+  
+  Default: ``5``
+
+
+new(inst)
+"""""""""
+Get a new Logger instance for the calling class. Recommended
+usage is ``self.log = conlog.new(self)``.
+
+Parameters
+''''''''''
+
+:``inst``:
+  Instance of class which new Logger is for, (HINT: use ``self``)
+  
+  **Required**
+
+
+Examples
+========
+
+This is the easiest way to add a root Logger using conlog with ``INFO`` level
+logging to the console.
 ::
 
-  log = clogging.start_from_args(level='INFO')
+  log = conlog.start(level='INFO')
 
-Or, another example to start DEBUG level logging with a rotating file handler,
+Start logging based on configuration in the YAML file, ``conf/conlog.yml``.
 ::
 
-  log = clogging.start_from_args(
-          file='logs/app.log',
+  log = conlog.start(yaml_file='conf/conlog.yml')
+
+
+Start ``DEBUG`` level Logger with console logging and rotating file logging to
+``logs/app.log``.
+::
+
+  log = conlog.start(
+          log_file='logs/app.log',
           level='DEBUG'
   )
 
+Similar to above but with specific values set for rotation of log files. This
+will rotate the log file when it reaches ``1 MB`` and retain up to ``10``
+archived log files before overwriting the oldest.
+::
 
-Options
-~~~~~~~
+    log = conlog.start(
+            log_file='log/app.log',
+            level='INFO',
+            max_file_size='1 MB',
+            max_retention=10,
+    )
 
-The following are available options and their descriptions. If any of
-these options are not supplied, the default value will be used. These
-option names can be set in either YAML format or as keyword arguments
-for start_from_args.
+Start console logging with a different log format.
+::
 
-:file:
-  Path to log file. By default, file logging is disabled. If 'file' is set to a
-  file path, for example, 'log/app.log', it will enable rotating file logging. 
+    log = conlog.start(log_format='%(levelname)s:%(name)s:%(message)s')
 
-  Note: In the example 'log/app.log', the log file itself, 'app.log', does not
-  need to exist; however, the base directory 'log' MUST exist. 
-  
-  By default the log file will rotate when it reaches 5 MB, with up to 5
-  rotations being kept before overwriting the oldest. These values can be
-  configured using 'max_file_size' and 'max_retention'.
 
-  Default: None
+Get a Logger instance for a class. (Remember to ``start()`` first)
+::
 
-:format:
-  Logging format for all non-verbose levels. By default non-verbose is
-  considered to be INFO and higher.
+    class Example(object):
+        def __init__(self):
+            self.log = conlog.new(self)
 
-  Default: '%(asctime)22s - %(levelname)8s - %(name)20s - %(message)s'
-
-:format_ext:
-  Logging format for all verbose levels. By default this is considered
-  to be DEBUG and TRACE levels. Additional levels can be added to use this
-  format in 'verbose_levels'.
-  
-  Default: '%(asctime)22s - %(levelname)8s - %(name)20s - %(funcName)20s - %(message)s'
-
-:level:
-  Logging level.
-
-  Default: 'INFO'
-
-:max_file_size:
-  Maximum log file size before rollover. This value can either be an integer
-  byte size or a proper string like: "5 MB", "50 kB", etc. Setting to 0
-  will cause the log file to grow infinitely with no rollover. This option has
-  no impact if 'file' is set to None.
-
-  Default: '5 MB'
-
-:max_retention:
-  Maximum number of rollover logs to keep. Logs will be saved as log.1, log.2,
-  ...etc., until max_retention is reached. At that point the oldest of
-  the rollover logs will be purged. This option has no impact if 'file' is set
-  to None, or if 'max_file_size' is set to 0.
-
-  Default: 5
-
-:verbose_levels:
-  Logging levels in this list are considered verbose levels and will use
-  format_ext for formatting. This is typically done to follow low
-  level logs which show funcName alongside name.
-  
-  Default: ['TRACE', 'DEBUG']
 
 Author
-************
+======
 * Ryan Miller - ryan@devopsmachine.com

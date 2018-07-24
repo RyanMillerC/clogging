@@ -1,0 +1,19 @@
+language: python
+python:
+  - "2.6"
+  - "2.7"
+  - "3.4"
+  - "3.5"
+  - "3.6"
+install:
+  - make install
+script:
+  - make test
+deploy:
+  provider: pypi
+  username: RyanMiller
+  password:
+    secure: Xy45ExVEYSED2sCRMI5Irn6Yd2zj5m98s7Q0dL+Jjl7uFtndXY+1UwNh98ZVvdff2gof/N7qJwkaMgV8A4Yj7oxcLVV8rXB4fFlH8q2QmChDpfc0zsF5Vw+nR0mBMP7aYzqA8fU7HHdiCl4U7Cct5Nk4qTeRTW7lap4l1t16L+YY5Vnbjbd9Tcelggc0kPUKfNDavBR4MEQE9X4XtYG+WX9BAcx+afvVqfOP7u6VcrMyCCDrFKw8jaJFfipT4OwMpFbSwbt/8QgWUCOP0eCkNWEHwR6YkoB90ljM+aPv8BignyVuXkBPEcxNb8tRxhgGnTg77FofqO/2FgmqCJNj+dUB1LLW9I6Qhjpe/ZdOgYbULcJbO17+LbeH0AAiUGF/Sw2TKA6b70B9kkgCQZKIkwOQzDKYtQyuxPYGrtUvNX141IXcJSocFPhIPK/a/LQaTeIQmpZoIdk3dVubDKg1LBsWxX2dvGYgsMm2q7GztpYpEmEIombZocAl1FIk3fQWmcuWLc2MuGhKcaKlcD0LBGcaKC+M3z9ZrvafKIXbUGXDee1SjcURvZl7lDhT2nQBpV6Nwr2tGXfum3d5P6FirIMIX7KTeR+mbt4O59lwTLnE9zYJTuXvIYBA3U/bza3aNs7sCV8k3pjwoTpKvtsx+pjvEV/tob17vzpg9fvR4AE=
+  on:
+    tags: true
+    python: "3.6"

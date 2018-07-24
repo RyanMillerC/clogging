@@ -1,0 +1,7 @@
+conlog:
+  log_file: test/tmp/test.log
+  log_format: '%(asctime)22s - %(levelname)8s - %(name)20s - %(message)s'
+  debug_format: '%(asctime)22s - %(levelname)8s - %(name)20s - %(funcName)20s - %(message)s'
+  level: INFO
+  max_file_size: 1 MB
+  max_retention: 10
