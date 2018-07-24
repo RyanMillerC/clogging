@@ -8,6 +8,8 @@ conlog/__pycache__
 
 # Ignore test files
 .pytest_cache
+test/*.pyc
 test/__pycache__
+test/utils/*.pyc
 test/utils/__pycache__
 test/tmp/*

@@ -2,8 +2,8 @@
 conlog
 #############
 
-.. image:: https://travis-ci.org/RyanMillerC/clogging.svg?branch=master
-    :target: https://travis-ci.org/RyanMillerC/clogging
+.. image:: https://travis-ci.org/RyanMillerC/conlog.svg?branch=master
+    :target: https://travis-ci.org/RyanMillerC/conlog
 
 Anti-Boilerplate Console Logging Module for Python
 
@@ -97,7 +97,7 @@ Parameters
   If ``yaml_file`` is supplied, its values are processed first,
   and will be overridden by any additional parameters called in
   ``start()``
-  
+
   Default: ``None``
 
 
@@ -156,7 +156,7 @@ Parameters
   of the rollover logs will be purged. This option has no impact
   if ``log_file`` is set to ``None``, or if ``max_file_size`` is
   set to ``0``.
-  
+
   Default: ``5``
 
 
@@ -170,7 +170,7 @@ Parameters
 
 :``inst``:
   Instance of class which new Logger is for, (HINT: use ``self``)
-  
+
   **Required**
 
 
