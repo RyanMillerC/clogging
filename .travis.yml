@@ -1,10 +1,10 @@
 language: python
 python:
-  - "2.6"
-  - "2.7"
-  - "3.4"
-  - "3.5"
-  - "3.6"
+  - '2.6'
+  - '2.7'
+  - '3.4'
+  - '3.5'
+  - '3.6'
 install:
   - make install
 script:
@@ -13,7 +13,8 @@ deploy:
   provider: pypi
   username: RyanMiller
   password:
-    secure: Xy45ExVEYSED2sCRMI5Irn6Yd2zj5m98s7Q0dL+Jjl7uFtndXY+1UwNh98ZVvdff2gof/N7qJwkaMgV8A4Yj7oxcLVV8rXB4fFlH8q2QmChDpfc0zsF5Vw+nR0mBMP7aYzqA8fU7HHdiCl4U7Cct5Nk4qTeRTW7lap4l1t16L+YY5Vnbjbd9Tcelggc0kPUKfNDavBR4MEQE9X4XtYG+WX9BAcx+afvVqfOP7u6VcrMyCCDrFKw8jaJFfipT4OwMpFbSwbt/8QgWUCOP0eCkNWEHwR6YkoB90ljM+aPv8BignyVuXkBPEcxNb8tRxhgGnTg77FofqO/2FgmqCJNj+dUB1LLW9I6Qhjpe/ZdOgYbULcJbO17+LbeH0AAiUGF/Sw2TKA6b70B9kkgCQZKIkwOQzDKYtQyuxPYGrtUvNX141IXcJSocFPhIPK/a/LQaTeIQmpZoIdk3dVubDKg1LBsWxX2dvGYgsMm2q7GztpYpEmEIombZocAl1FIk3fQWmcuWLc2MuGhKcaKlcD0LBGcaKC+M3z9ZrvafKIXbUGXDee1SjcURvZl7lDhT2nQBpV6Nwr2tGXfum3d5P6FirIMIX7KTeR+mbt4O59lwTLnE9zYJTuXvIYBA3U/bza3aNs7sCV8k3pjwoTpKvtsx+pjvEV/tob17vzpg9fvR4AE=
+    secure: SYHX/jmoz2S9s6jr4VMIAXaN4/DXGaS6VneBY7w6FXWDoUjcHMNi07vzMCVw7f3AkbtLrukJHfJGRyrtQxZwA4VOwMLesmdZa6gedSRvyDmo6XfCNs3MakqQn76hsADJ6tnCLvycvkweG/QpTR+ilyir3Kd8nWqDwZV3pPd7Vn+syj9XIL+nUG0A+U4eBJOWhLZJkQV/yiLnLNQ5SfMLDgwiDiBwGTQNO/n3OlHsvH7zax+5tiBkfu2hGznC6HdkHvb0YiqXIwAiNf3lcrKJg8H0DQPqCAHAKqTJrSpH6jduLU7xPFDd/8kA50riQMOu/lgZwiobcTO1VvnuRzTMRZLlZyic7gbA7PDq/A9EV6mCDBmpr60FkIyf6N6jdGa2asxVITzPeLFgdzV0PJUMp4Enx6ZVro9zKkRAr60Wz8IEDbLgV7/e9bAT4in2CASAVm/+XFdM5aR9vaZb9Sj8KQNiDsrW8A8bzxShUg82RJR/fr8X5v6mCxcV7wNb0/+JmoeJno+j5Q9fNwWf3NaCXRhAxw38nNV+Vbl3IwUigJpMK7WJinhGbZM9xnYcJCOTaE6K8aNzUiqoEhs2x88vJYQOg7rR/Sec9p/2EBs2AEFwFR3KwxtISiV2h1DgLI/VCv34LnPvbokJjG+7w15y7MPLg5bYqv5Jyl3azWe6lCE=
   on:
     tags: true
-    python: "3.6"
+    python: '3.6'
+
