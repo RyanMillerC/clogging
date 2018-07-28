@@ -2,8 +2,7 @@
 conlog
 #############
 
-.. image:: https://travis-ci.org/RyanMillerC/conlog.svg?branch=master
-    :target: https://travis-ci.org/RyanMillerC/conlog
+|build-status| |license| |pypi-version|
 
 Anti-Boilerplate Console Logging Module for Python
 
@@ -227,3 +226,18 @@ Get a Logger instance for a class. (Remember to ``start()`` first)
 Author
 ======
 * Ryan Miller - ryan@devopsmachine.com
+
+.. |build-status| image:: https://img.shields.io/travis/RyanMillerC/conlog.svg
+    :alt: Build Status
+    :scale: 100%
+    :target: https://travis-ci.org/RyanMillerC/conlog
+
+.. |license| image:: https://img.shields.io/github/license/ryanmillerc/conlog.svg
+    :alt: License
+    :scale: 100%
+    :target: https://github.com/RyanMillerC/conlog/blob/master/LICENSE.txt
+
+.. |pypi-version| image:: https://img.shields.io/pypi/v/conlog.svg
+    :alt: PyPi Version
+    :scale: 100%
+    :target: https://pypi.org/project/conlog
