@@ -33,3 +33,20 @@ def create_dirs(*args):
     for dir_ in args:
         if not os.path.exists(dir_):
             os.makedirs(dir_)
+
+
+def read_log_entry(file_name):
+    """Read the last line from a log file and return it as
+    a string.
+
+    NOTE: This only works if the default date format is used,
+    along with a [space][delimiter][space] format.
+
+    :param str file_name:
+        Path to the log file
+    """
+    last_line = ''  # This will hold the most recent log entry
+    with open(file_name, 'r') as stream:
+        for line in stream:
+            last_line = line
+    return last_line[25:].rstrip()  # Strip out date and trailing new line

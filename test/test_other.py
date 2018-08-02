@@ -1,18 +1,24 @@
+import pytest
+
 import conlog
 # import utils
 
 
-def test_module_defaults():
-    """Test that no module defaults were altered. In the event
-    that a default is actually being updated, this test should
-    also be updated.
+def test_start_with_non_existent_kwarg():
+    """Test that using start with an unknown kwarg throws a
+    TypeError.
     """
-    con = conlog.ConLog()
-    assert con.log_file == None
-    assert con.log_format == '%(asctime)22s - %(levelname)8s - %(name)20s - ' \
-                             '%(message)s'
-    assert con.debug_format == '%(asctime)22s - %(levelname)8s - ' \
-                               '%(name)20s - %(funcName)20s - %(message)s'
-    assert con.level == 'INFO'
-    assert con.max_file_size == 5000000
-    assert con.max_retention == 5
+    with pytest.raises(TypeError):
+        conlog.start(unknown_kw='Should throw TypeError')
+
+
+def test_logger_with_default_values():
+    """Test to make sure that Logger root instance is setup
+    with default values.
+    """
+    log = conlog.start()
+    assert log.name == 'root'
+    assert log.level == 20  # Level 20 = INFO Level
+    #
+    # TODO: Come up with ways to test for other default values?
+    #
