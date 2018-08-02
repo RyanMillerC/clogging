@@ -227,7 +227,7 @@ Author
 ======
 * Ryan Miller - ryan@devopsmachine.com
 
-.. |build-status| image:: https://img.shields.io/travis/RyanMillerC/conlog.svg
+.. |build-status| image:: https://img.shields.io/travis/RyanMillerC/conlog.svg?branch=master
     :alt: Build Status
     :scale: 100%
     :target: https://travis-ci.org/RyanMillerC/conlog
