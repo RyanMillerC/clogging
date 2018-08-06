@@ -2,7 +2,7 @@ from setuptools import setup
 setup(
     name='conlog',
     packages=['conlog'],
-    version='1.1.0',
+    version='1.1.3',
     install_requires=['PyYAML>=3.12', 'bitmath>=1.3.1.2', 'six>=1.10.0'],
     description='Anti-Boilerplate Console Logging Module for Python',
     long_description=open('README.rst').read(),
@@ -10,7 +10,7 @@ setup(
     author_email='ryan@devopsmachine.com',
     license='MIT',
     url='https://github.com/RyanMillerC/conlog',
-    download_url='https://github.com/RyanMillerC/conlog/archive/1.1.0.tar.gz',
+    download_url='https://github.com/RyanMillerC/conlog/archive/1.1.3.tar.gz',
     keywords=['logging', 'debugging'],
     classifiers=[
         'Intended Audience :: Developers',
